@@ -1,0 +1,21 @@
+services:
+  stable-diffusion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    devices:
+      - "/dev/kfd:/dev/kfd"
+      - "/dev/dri:/dev/dri"
+    group_add:
+      - video
+    ipc: host
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined
+    shm_size: 8G
+    volumes:
+      - "./data:/dockerx"
+      - "./bootstrap.sh:/dockerx/bootstrap.sh:ro"
+    working_dir: /dockerx
